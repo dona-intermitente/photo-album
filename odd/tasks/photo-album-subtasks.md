@@ -14,6 +14,7 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 | Drag & drop       | HTML5 DnD nativo o `@dnd-kit` (por decidir)                      |
 | Colores           | `<input type="color">` o color-picker de shadcn/comunidad        |
 | Imágenes          | Vista previa local con `URL.createObjectURL` (sin subida real)   |
+| Gate de viewport  | `PlatformGate` dentro de `app/page.tsx`; nunca envolviendo `children` en `app/layout.tsx` |
 
 > Estrategia de shadcn/ui: se ejecuta `npx shadcn@latest init` una sola vez en T1-01. Los componentes individuales se agregan con `npx shadcn@latest add <componente>` **a medida que cada tarea los requiere**, no todos de antemano. Cada tarea registra qué componentes instala en su sección "Componentes shadcn involucrados".
 
@@ -22,6 +23,8 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 ---
 
 ## T1-01 — Scaffold Next.js App Router + Tailwind + TypeScript + shadcn/ui
+
+**Estado:** completada
 
 **Objetivo:** dejar la aplicación lista para empezar a construir, con la estructura de carpetas, las dependencias base y el control de calidad de código mediante commits estandarizados (Husky, Lint-staged, Commitlint).
 
@@ -49,26 +52,36 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ## T1-02 — Viewport Guard: resolución mínima y pantalla de error
 
+**Estado:** completada
+
 **Objetivo:** bloquear la app en pantallas pequeñas y mostrar una pantalla de error con enlaces a GitHub y Behance.
+
+> **Ubicación del gate (decidido):** el guard es el componente `PlatformGate` y vive en `app/page.tsx`, envolviendo **solo el contenido de la plataforma**. `app/layout.tsx` renderiza `{children}` directo en `<body>`.
+>
+> Nunca envolver `children` con el gate en `app/layout.tsx`: un componente condicional por encima de los segmentos de ruta hace que Next descarte `page.tsx` del render y reporte `Route "/": Could not validate that a segment in your UI has instant navigation` con `Dropped segment: src/app/page.tsx`. El validador de Instant Navigation de Cache Components solo puede validar segmentos que efectivamente se renderizaron.
+>
+> Regla: **el gate puede ser dueño de la plataforma, nunca de los segmentos de ruta.**
 
 ### Subtareas
 
-1. Definir la resolución mínima permitida (ej. 768 px de ancho) y el umbral de detección.
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add card button separator`.
-3. Crear componente `ViewportGuard` que use `useMediaQuery` o `window.matchMedia` para detectar el tamaño de pantalla.
+1. Definir la resolución mínima permitida (768 px de ancho) y el umbral de detección.
+2. Agregar componentes shadcn necesarios: `npx shadcn@latest add card empty`.
+3. Crear componente `PlatformGate` en `src/components/photo-album/platform-gate.tsx` como client component, usando `useMediaQuery` (`matchMedia` + `useSyncExternalStore`) para detectar el tamaño de pantalla.
 4. Crear la pantalla de error `ViewportError` con mensaje claro y enlaces externos a GitHub/Behance.
-5. Integrar el guard en el layout raíz o en la página raíz (`app/layout.tsx` / `app/page.tsx`) para que resuelva antes de renderizar la plataforma.
-6. Probar cambio de tamaño de ventana: si pasa por debajo del mínimo, se muestra la pantalla de error; si vuelve arriba, se permite continuar.
+5. Renderizar `PlatformGate` dentro de `app/page.tsx` envolviendo el contenido de la plataforma, para que el gate resuelva antes de renderizar la plataforma.
+6. Resolver los tres estados del gate: `null` → placeholder neutro (`INITIALIZING`), `false` → `ViewportError` (`VIEWPORT_ERROR`), `true` → `children` (`PLATFORM_ACTIVE`).
+7. Probar cambio de tamaño de ventana: si pasa por debajo del mínimo, se muestra la pantalla de error; si vuelve arriba, se permite continuar. La detección usa el listener de `matchMedia`, sin recargar.
 
 ### Componentes shadcn involucrados
 
-- `card`, `button`, `separator`.
+- `card`, `button`, `empty`.
 
 ### Definition of Done
 
 - En pantallas pequeñas se renderiza la pantalla de error con enlaces funcionales.
 - En pantallas válidas, la app continúa al siguiente flujo (splash o plataforma).
 - El cambio de tamaño de ventana se detecta sin recargar la página.
+- El segmento `page.tsx` se renderiza siempre (aunque sea su placeholder), así el validador de Instant Navigation no reporta "dropped segment".
 
 ---
 
@@ -246,7 +259,7 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 2. Crear el store de Zustand con el estado actual y transiciones permitidas.
 3. Flujo de inicio: `INITIALIZING` → chequeo de viewport → si falla, `VIEWPORT_ERROR`; si pasa, `SPLASH` → al terminar splash, `PLATFORM_ACTIVE`.
 4. Rama de modales: desde `PLATFORM_ACTIVE`, abrir `PageManager` o `GlobalStyles` sin salir del estado activo.
-5. Integrar `ViewportGuard` (T1-02) y `SplashScreen` (T1-03) con el estado global.
+5. Integrar `PlatformGate` (T1-02) y `SplashScreen` (T1-03) con el estado global: el `if` de `PlatformGate` pasa a ser un `switch` sobre la fase del store, sin cambiar la ubicación del componente dentro de `app/page.tsx`.
 6. Manejar transiciones inválidas (evitar saltarse estados).
 7. Exponer el estado actual para que componentes decidan qué renderizar.
 
@@ -259,6 +272,7 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 - La app sigue el camino correcto: inicialización → viewport → splash → plataforma.
 - Los modales se abren y cierran sin romper el estado de plataforma activa.
 - No se pueden saltar estados (ej. ir directo a plataforma sin pasar viewport).
+- El gate sigue dentro de `app/page.tsx`; `app/layout.tsx` no envuelve `children`.
 
 ---
 

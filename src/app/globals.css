@@ -81,6 +81,17 @@
   --sidebar-accent-foreground: oklch(20.5% 0 0); /* #171717 */
   --sidebar-border: oklch(14.5% 0 0); /* #0a0a0a */
   --sidebar-ring: oklch(87% 0 0); /* #d4d4d4 */
+  /* --- Dot-grid pattern knobs --- */
+  --pattern-dot-color: color-mix(in oklch, var(--foreground) 16%, transparent);
+  --pattern-dot-radius: 1px;
+  --pattern-grid-size: 22px;
+
+  /* --- The pattern itself --- */
+  --pattern-dots: radial-gradient(
+    circle at center,
+    var(--pattern-dot-color) var(--pattern-dot-radius),
+    transparent var(--pattern-dot-radius)
+  );
 }
 
 .dark {
@@ -115,6 +126,11 @@
   --sidebar-accent-foreground: oklch(97% 0 0); /* #f5f5f5 */
   --sidebar-border: oklch(97% 0 0); /* #f5f5f5 */
   --sidebar-ring: oklch(87% 0 0); /* #d4d4d4 */
+}
+
+@utility bg-dots {
+  background-image: var(--pattern-dots);
+  background-size: var(--pattern-grid-size) var(--pattern-grid-size);
 }
 
 @layer base {
