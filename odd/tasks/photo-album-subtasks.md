@@ -4,16 +4,16 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ## Decisiones técnicas asumidas (confirmar antes de empezar)
 
-| Área              | Suposición actual                                                |
-| ----------------- | ---------------------------------------------------------------- |
-| Framework         | Next.js App Router, React 19, TypeScript                         |
-| Estilos           | Tailwind CSS + shadcn/ui (componentes base)                      |
-| Gestión de estado | Zustand + localStorage (sin backend)                             |
-| Persistencia      | localStorage del navegador (fotos, páginas, orden, estilos)      |
-| Grid Pinterest    | CSS puro (`column-count` / `break-inside`) sin librerías pesadas |
-| Drag & drop       | HTML5 DnD nativo o `@dnd-kit` (por decidir)                      |
-| Colores           | `<input type="color">` o color-picker de shadcn/comunidad        |
-| Imágenes          | Vista previa local con `URL.createObjectURL` (sin subida real)   |
+| Área              | Suposición actual                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| Framework         | Next.js App Router, React 19, TypeScript                                                  |
+| Estilos           | Tailwind CSS + shadcn/ui (componentes base)                                               |
+| Gestión de estado | Zustand + localStorage (sin backend)                                                      |
+| Persistencia      | localStorage del navegador (fotos, páginas, orden, estilos)                               |
+| Grid Pinterest    | CSS puro (`column-count` / `break-inside`) sin librerías pesadas                          |
+| Drag & drop       | HTML5 DnD nativo o `@dnd-kit` (por decidir)                                               |
+| Colores           | `<input type="color">` o color-picker de shadcn/comunidad                                 |
+| Imágenes          | Vista previa local con `URL.createObjectURL` (sin subida real)                            |
 | Gate de viewport  | `PlatformGate` dentro de `app/page.tsx`; nunca envolviendo `children` en `app/layout.tsx` |
 
 > Estrategia de shadcn/ui: se ejecuta `npx shadcn@latest init` una sola vez en T1-01. Los componentes individuales se agregan con `npx shadcn@latest add <componente>` **a medida que cada tarea los requiere**, no todos de antemano. Cada tarea registra qué componentes instala en su sección "Componentes shadcn involucrados".
@@ -87,21 +87,21 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ## T1-03 — Splash Screen: secuencia de 3 estados
 
+**Estado:** completada
+
 **Objetivo:** mostrar una secuencia de presentación de 3 estados antes de activar la plataforma.
 
 ### Subtareas
 
-1. Definir los 3 estados: fiesta → cámara → álbum.
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add progress skeleton avatar badge` (`card` y `button` ya están instalados).
-3. Crear el componente `SplashScreen` con máquina de estados interna y temporizador (o carga de assets) por estado.
-4. Diseñar cada estado con componentes shadcn: `card`, `progress`, `skeleton`, `avatar`, `badge`.
-5. Agregar transición suave entre estados (fade/slide con Tailwind `animate-` o CSS transitions).
-6. Al completar los 3 estados, emitir evento o actualizar el store global para pasar a `SPLASH_COMPLETED` y habilitar la plataforma.
-7. Opcional: permitir saltar el splash (botón "Saltar") si se prefiere.
+1. Definir los 3 estados (fiesta → cámara → álbum) con sus identificadores, etiquetas e iconos asociados (`SPLASH_STEPS`).
+2. Crear componentes de iconos SVG dedicados (`PartyPopperIcon`, `PhotoCameraIcon`, `BookHeartIcon`) en `src/components/icons/`.
+3. Diseñar visualmente cada estado con iconos animados (`animate-bounce`) y tipografía Tailwind (sin dependencias de componentes shadcn).
+4. Implementar el componente `SplashScreen` con temporizador secuencial por estado (`stepDuration`) y animación de salida (`animate-out fade-out slide-out-to-top-8`).
+5. Conectar `SplashScreen` en `app/page.tsx` mediante callback `onComplete` para alternar la vista y activar la animación de entrada de la plataforma (`animate-in fade-in slide-in-from-bottom-8`), ajustando `layout.tsx` (`overflow-hidden`) para asegurar la transición.
 
 ### Componentes shadcn involucrados
 
-- `card`, `progress`, `skeleton`, `avatar`, `badge`, `button`.
+- Ninguno en esta tarea.
 
 ### Definition of Done
 
