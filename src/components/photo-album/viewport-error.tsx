@@ -15,8 +15,8 @@ import { BehanceIcon } from "../icons/behance-icon";
 
 export function ViewportError() {
   return (
-    <Empty className="bg-background bg-dots">
-      <Card className="max-w-md bg-accent px-4">
+    <Empty className="bg-dots">
+      <Card className="max-w-md shadow-sticker bg-accent px-4">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <HeartCrackIcon />
