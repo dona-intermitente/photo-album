@@ -92,6 +92,9 @@
     var(--pattern-dot-color) var(--pattern-dot-radius),
     transparent var(--pattern-dot-radius)
   );
+
+  /* --- The sticker shadow --- */
+  --sticker: -6px 6px 0 var(--primary);
 }
 
 .dark {
@@ -129,8 +132,13 @@
 }
 
 @utility bg-dots {
+  background-color: var(--background);
   background-image: var(--pattern-dots);
   background-size: var(--pattern-grid-size) var(--pattern-grid-size);
+}
+
+@utility shadow-sticker {
+  box-shadow: var(--sticker);
 }
 
 @layer base {

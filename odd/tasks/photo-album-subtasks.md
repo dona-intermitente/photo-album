@@ -111,31 +111,34 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ---
 
-## T1-04 — Layout plataforma principal: Sidebar, TopBar, Footer, área de trabajo
+## T1-04 — Layout plataforma principal: Desk Canvas, Floating Dock, Cuaderno Anillado y Footer
 
-**Objetivo:** construir la plataforma principal como client component con las zonas estructurales.
+**Objetivo:** construir la plataforma principal como client component con la metáfora visual del diseño: escritorio decorado (`DeskCanvas`), barra de herramientas flotante (`FloatingDock`), cuaderno anillado (`ScrapbookBinder`) y pie de autor.
 
 ### Subtareas
 
-1. Crear `MainLayout` como client component (`'use client'`).
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add sheet scroll-area toggle-group command` (`button` y `badge` ya están instalados).
-3. Crear `Sidebar` (navegación entre páginas/álbumes; usar `sheet` de shadcn en móviles o sidebar fijo en desktop).
-4. Crear `TopBar` (título, controles globales, notificaciones/toast).
-5. Crear `Footer` (información, versión, enlaces).
-6. Definir el área de trabajo donde se renderizará el grid de fotos y los modales.
-7. Establecer el fondo estático como CSS variable del body o contenedor raíz (controlado por T1-08).
-8. Probar responsividad: sidebar colapsable en pantallas pequeñas.
+1. Crear `PlatformLayout` / `MainLayout` como client component (`'use client'`) encargado de orquestar el viewport y el escalado del escritorio.
+2. Agregar componentes shadcn necesarios: `npx shadcn@latest add carousel` (`button` y `card` ya están instalados).
+3. Construir `DeskCanvas` con el fondo estático y los elementos decorativos perimetrales (cámara, sellos postales, lápiz) mediante posicionamiento absoluto responsivo.
+4. Construir `FloatingDock` (píldora vertical oscura flotante) con accesos directos a los modales/acciones: Álbum/Portada, Capas/Páginas (T1-07), Paleta/Estilos (T1-08) y Subida (T1-06).
+5. Construir `ScrapbookBinder` (el cuaderno anillado):
+   - Hoja con textura de cuadrícula de puntos (`dot-grid` en CSS/SVG).
+   - Elementos decorativos: pestañas superiores (`page tabs`), esquineros de cinta adhesiva (`washi tape`), Columna de anillas negras (`binder rings`) y hoja con textura de cuadrícula de puntos (`dot-grid` en CSS/SVG) con otros elementos decorativos.
+   - Carousel con controles de navegación: botón anterior `[<-]` y botón siguiente/agregar página `[+]`.
+   - Marco central del carousel para el contenido/foto con barra de acciones contextuales inferior (botón de reemplazo/edición y botón rojo de eliminar).
+6. Construir `DeskFooter`: créditos centrados `Dona_intermitente` con enlaces externos a GitHub y Behance.
+7. Ajustar responsividad: garantizar que el cuaderno escale limpiamente y los accesorios del escritorio se oculten o reacomoden en pantallas intermedias sin romper el umbral del Viewport Guard (≥ 768px).
 
 ### Componentes shadcn involucrados
 
-- `sheet`, `button`, `badge`, `scroll-area`, `toggle-group`, `command`.
+- `button`, `card`, `carousel`.
 
 ### Definition of Done
 
-- Layout con las 4 zonas renderizadas correctamente.
-- Navegación entre páginas desde la sidebar.
-- Fondo estático aplicado como variable CSS.
-- Responsivo en desktop y móvil.
+- El layout renderiza fielmente la composición del diseño: escritorio con accesorios, barra flotante, cuaderno anillado y footer.
+- El `FloatingDock` expone los disparadores para los modales de páginas, estilos y subida.
+- El patrón dot-grid, anillas y cintas washi se visualizan con nitidez.
+- Escala de forma fluida en desktop y tablet respetando la resolución mínima.
 
 ---
 
