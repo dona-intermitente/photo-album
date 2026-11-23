@@ -142,59 +142,55 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ---
 
-## T1-05 — Photo Grid automático: grid tipo Pinterest, máximo 6 fotos por página
+## T1-05 — Photo Grid automático: grid tipo Pinterest, máximo 4 fotos por página
 
-**Objetivo:** renderizar las fotos subidas en un grid automático estilo Pinterest, respetando el límite de 6 fotos por página.
+**Objetivo:** renderizar las fotos subidas en un grid automático estilo Pinterest, respetando el límite de 4 fotos por página.
 
 ### Subtareas
 
-1. Definir el modelo de datos de una foto (id, url, página, orden, fechaSubida, tamaño, tipo).
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add dialog` (`card`, `button`, `badge`, `scroll-area`, `toggle-group` ya están instalados).
-3. Crear componente `PhotoCard` usando `card` de shadcn con miniatura, título opcional y acciones (seleccionar, eliminar).
-4. Crear `PhotoGrid` con layout tipo Pinterest: columnas dinámicas según ancho de pantalla (`column-count` con `break-inside: avoid` en Tailwind) y máximo 6 tarjetas por página.
-5. Implementar paginación simple: si hay más de 6 fotos, mostrar controles de página (botones shadcn `button` o `toggle-group`).
-6. Vacío de estado: cuando no hay fotos, mostrar `card` vacía con mensaje y botón de subida.
-7. Integrar con el store de Zustand para leer las fotos de la página activa.
-8. Lightbox opcional al hacer clic en una foto (usar `dialog` de shadcn).
+1. Definir el modelo de datos de una foto (id, url).
+2. Crear `PhotoGrid` con layout tipo Pinterest: columnas dinámicas según cantidad de fotos. (`column-count` con `break-inside: avoid` en Tailwind) y máximo 4 tarjetas por página.
+3. Vacío de estado: cuando no hay fotos, mostrar `card` vacía con mensaje y botón de subida.
+4. Integrar con el store de Zustand para leer las fotos de la página activa.
 
 ### Componentes shadcn involucrados
 
-- `card`, `button`, `dialog`, `badge`, `scroll-area`, `toggle-group`.
+- `card`, `button`.
 
 ### Definition of Done
 
 - Las fotos se organizan en grid tipo Pinterest sin superposiciones.
-- Máximo 6 fotos por página; el séptimo se bloquea o mueve a la siguiente página.
+- Máximo 4 fotos por página; el séptimo se bloquea o mueve a la siguiente página.
 - Paginación funcional entre páginas.
 - Estado vacío con llamada a la acción de subida.
 
 ---
 
-## T1-06 — Subida de fotos: input file, preview local, Zustand + localStorage
+## T1-06 — Subida de fotos: input file, preview local, Zustand + IndexedDB
 
-**Objetivo:** permitir subir fotos, previsualizarlas localmente y guardarlas en el estado y almacenamiento del navegador.
+**Objetivo:** permitir subir fotos, previsualizarlas localmente y guardarlas en el estado y almacenamiento del navegador (IndexedDB).
 
 ### Subtareas
 
 1. Crear componente `PhotoUploader` con `<input type="file" accept="image/*">` y botón shadcn `button`.
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add input toast` (`button`, `progress`, `card`, `dialog` ya están instalados).
-3. Validar tipo de archivo (imágenes) y tamaño máximo (por archivo).
-4. Generar vista previa local con `URL.createObjectURL` y revocar URLs cuando ya no se usen.
-5. Crear el store de Zustand con acciones: `addPhoto`, `removePhoto`, `setPhotos`, y persistencia en `localStorage`.
-6. Aplicar el límite de 6 fotos por página: bloquear la subida si se alcanza el tope (mostrar `toast` de shadcn).
-7. Guardar metadatos (id, nombre, tamaño, tipo, fecha, orden) junto con la URL local (blob URL o base64 si es necesario).
+2. Agregar componentes shadcn necesarios: `npx shadcn@latest add sonner alert-dialog` (`button`, `card` ya están instalados).
+3. Validar tipo de archivo (imágenes).
+4. Generar vista previa local con base64 (`readAsDataURL`) o blob URLs.
+5. Crear el store de Zustand con acciones (`addPhotosToCurrentPage`, `deleteSelectedPhotos`, etc.) y persistencia en `IndexedDB` (usando `idb-keyval`).
+6. Aplicar el límite de 4 fotos por página: bloquear la subida si se alcanza el tope (mostrar `toast` de shadcn).
+7. Guardar metadatos (id, nombre) junto con la URL local en base64.
 8. Integrar el uploader en el área de trabajo y en el `PhotoGrid`.
 
 ### Componentes shadcn involucrados
 
-- `button`, `input`, `toast`, `progress`, `card`, `dialog`.
+- `button`, `sonner`, `card`, `alert-dialog`.
 
 ### Definition of Done
 
 - Se pueden seleccionar y previsualizar imágenes antes de guardar.
-- Las fotos se persisten en localStorage y sobreviven recargas.
-- Se respeta el límite de 6 fotos por página con aviso claro.
-- Errores de tipo/tamaño se manejan con `toast`.
+- Las fotos se persisten en IndexedDB y sobreviven recargas.
+- Se respeta el límite de 4 fotos por página con aviso claro.
+- Errores de tipo se manejan con `sonner`.
 
 ---
 

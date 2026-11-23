@@ -53,7 +53,7 @@
   --foreground: oklch(14.5% 0 0); /* #0a0a0a */
   --card: oklch(92.2% 0 0); /* #e5e5e5 */
   --card-foreground: oklch(14.5% 0 0); /* #0a0a0a */
-  --popover: oklch(98.5% 0 0); /* #fafafa */
+  --popover: oklch(92.2% 0 0); /* #e5e5e5 */
   --popover-foreground: oklch(14.5% 0 0); /* #0a0a0a */
   --primary: oklch(20.5% 0 0); /* #171717 */
   --primary-foreground: oklch(98.5% 0 0); /* #fafafa */
