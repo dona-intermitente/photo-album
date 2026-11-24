@@ -36,8 +36,8 @@ Crear una herramienta personal de recuerdos sin depender de backend ni cuentas e
 - [x] T1-02 Viewport Guard: detectar resolución mínima y renderizar pantalla de error con enlaces a GitHub/Behance
 - [x] T1-03 Splash Screen: secuencia de 3 estados (fiesta, cámara, álbum) con temporizador/carga de assets
 - [x] T1-04 Layout plataforma principal: Desk Canvas, Floating Dock, Cuaderno Anillado y Footer (client component)
-- [ ] T1-05 Photo Grid automático: grid responsive tipo Pinterest, máximo 6 fotos por página
-- [ ] T1-06 Subida de fotos: input file, preview local, guardar en Zustand + localStorage
+- [x] T1-05 Photo Grid automático: grid responsive tipo Pinterest, máximo 6 fotos por página
+- [x] T1-06 Subida de fotos: input file, preview local, guardar en Zustand + IndexedDB
 - [ ] T1-07 Modal Gestión de Páginas: listado, drag & drop para reordenar, eliminar, seleccionar página activa
 - [ ] T1-08 Modal Estilos Globales: fondo estático, selector de color, variables CSS, persistir preferencias
 - [ ] T1-09 Máquina de estados global: INITIALIZING → VIEWPORT_ERROR / SPLASH → PLATFORM_ACTIVE con ramas de modales
