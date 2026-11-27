@@ -9,6 +9,8 @@ interface AlbumPhotoState {
   selectedPhotos: Photo[];
 
   addPage: () => void;
+  deletePage: (pageId: number) => void;
+  reorderPages: (pages: Page[]) => void;
   addPhotosToCurrentPage: (photos: Photo[]) => void;
   deleteSelectedPhotos: () => void;
   setCurrentPageIndex: (index: number) => void;
@@ -35,6 +37,42 @@ export const useAlbumPhotoStore = create<AlbumPhotoState>()(
           pages: [...state.pages, { id: state.pages.length, photos: [] }],
           currentPageIndex: state.pages.length,
         })),
+
+      reorderPages: (pages: Page[]) =>
+        set((state) => {
+          const currentPage = state.pages[state.currentPageIndex];
+          const newCurrentIndex = currentPage ? pages.findIndex((p) => p.id === currentPage.id) : 0;
+          return {
+            pages,
+            currentPageIndex: newCurrentIndex >= 0 ? newCurrentIndex : 0,
+          };
+        }),
+
+      deletePage: (pageId: number) =>
+        set((state) => {
+          if (state.pages.length <= 1) {
+            return state;
+          }
+
+          const targetIndex = state.pages.findIndex((page) => page.id === pageId);
+          if (targetIndex === -1) {
+            return state;
+          }
+
+          const nextPages = state.pages.filter((page) => page.id !== pageId);
+          let nextIndex = state.currentPageIndex;
+
+          if (state.currentPageIndex === targetIndex) {
+            nextIndex = Math.min(targetIndex, nextPages.length - 1);
+          } else if (state.currentPageIndex > targetIndex) {
+            nextIndex = state.currentPageIndex - 1;
+          }
+
+          return {
+            pages: nextPages,
+            currentPageIndex: Math.max(0, nextIndex),
+          };
+        }),
 
       addPhotosToCurrentPage: (photos: Photo[]) =>
         set((state) => ({

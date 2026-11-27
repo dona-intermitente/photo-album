@@ -200,19 +200,18 @@ Fuente: `odd/tasks/photo-album.md` (checklist original T1-01 … T1-11).
 
 ### Subtareas
 
-1. Definir el modelo de datos de una página (id, nombre, orden, fotos[]).
-2. Agregar componentes shadcn necesarios: `npx shadcn@latest add table label` (`dialog`, `card`, `button`, `input`, `separator`, `toast` ya están instalados).
-3. Crear modal `PageManager` usando `dialog` de shadcn (o `sheet` en móvil).
-4. Listar páginas con `table` o lista de `card` de shadcn, mostrando nombre y cantidad de fotos.
-5. Implementar reordenar por drag & drop (HTML5 DnD nativo o `@dnd-kit`) y actualizar el campo `orden`.
-6. Acción eliminar página (confirmar con `dialog` de shadcn) y reasignar sus fotos o borrarlas.
+1. Definir el modelo de datos de una página (id, orden, fotos[]).
+2. Agregar componentes shadcn necesarios: `npx shadcn@latest add popover` (`alert-dialog`, `card`, `button` ya están instalados).
+3. Crear modal `PageManager` usando `popover` de shadcn.
+4. Listar páginas con lista de `card` de shadcn, mostrando id y cantidad de fotos.
+5. Implementar reordenar por drag & drop (`@dnd-kit`) y actualizar el campo `orden`.
+6. Acción eliminar página (confirmar con `alert-dialog` de shadcn) y reasignar sus fotos o borrarlas.
 7. Acción seleccionar página activa (actualizar store y reflejar en el grid).
-8. Acción crear página nueva (formulario con `input` de shadcn).
-9. Persistir cambios de páginas en localStorage.
+8. Persistir cambios de páginas en localStorage.
 
 ### Componentes shadcn involucrados
 
-- `dialog`, `table`, `card`, `button`, `input`, `label`, `separator`, `toast`.
+- `alert-dialog`, `card`, `button`, `popover`.
 
 ### Definition of Done
 

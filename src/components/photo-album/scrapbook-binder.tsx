@@ -121,8 +121,25 @@ export function ScrapbookBinder() {
 
   useEffect(() => {
     if (!api) return;
-    api.on("select", () => setCurrentPageIndex(api.selectedScrollSnap()));
-  }, [api, setCurrentPageIndex]);
+    const onSelect = () => {
+      const snapIndex = api.selectedScrollSnap();
+      if (snapIndex !== currentPageIndex) {
+        setCurrentPageIndex(snapIndex);
+      }
+    };
+
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api, currentPageIndex, setCurrentPageIndex]);
+
+  useEffect(() => {
+    if (!api) return;
+    if (api.selectedScrollSnap() !== currentPageIndex) {
+      api.scrollTo(currentPageIndex);
+    }
+  }, [api, currentPageIndex]);
 
   return (
     <>
@@ -182,6 +199,8 @@ export function ScrapbookBinder() {
         open={openConfirmDeleted}
         onOpenChange={setOpenConfirmDeleted}
         onDelete={deleteSelectedPhotos}
+        title="¿Estás seguro que quieres eliminar la/las foto/s?"
+        description="Esta acción no se puede deshacer. Esto eliminará permanentemente la foto de la página."
       />
     </>
   );

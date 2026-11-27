@@ -13,17 +13,23 @@ interface ConfirmDeletedProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onDelete: () => void;
+  title: string;
+  description: string;
 }
 
-export function ConfirmDeleted({ open, onOpenChange, onDelete }: ConfirmDeletedProps) {
+export function ConfirmDeleted({
+  open,
+  onOpenChange,
+  onDelete,
+  title,
+  description,
+}: ConfirmDeletedProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>¿Estás seguro que quieres eliminar la foto?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Esta acción no se puede deshacer. Esto eliminará permanentemente la foto de la página.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
