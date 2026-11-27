@@ -38,7 +38,7 @@ Crear una herramienta personal de recuerdos sin depender de backend ni cuentas e
 - [x] T1-04 Layout plataforma principal: Desk Canvas, Floating Dock, Cuaderno Anillado y Footer (client component)
 - [x] T1-05 Photo Grid automático: grid responsive tipo Pinterest, máximo 6 fotos por página
 - [x] T1-06 Subida de fotos: input file, preview local, guardar en Zustand + IndexedDB
-- [ ] T1-07 Modal Gestión de Páginas: listado, drag & drop para reordenar, eliminar, seleccionar página activa
+- [x] T1-07 Modal Gestión de Páginas: listado, drag & drop para reordenar, eliminar, seleccionar página activa
 - [ ] T1-08 Modal Estilos Globales: fondo estático, selector de color, variables CSS, persistir preferencias
 - [ ] T1-09 Máquina de estados global: INITIALIZING → VIEWPORT_ERROR / SPLASH → PLATFORM_ACTIVE con ramas de modales
 - [ ] T1-10 Persistencia completa: fotos, páginas, orden y estilos en localStorage con rehidratación al iniciar

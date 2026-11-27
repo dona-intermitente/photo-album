@@ -1,6 +1,9 @@
+"use client";
+
 import { BookHeartIcon } from "@/components/icons/book-heart-icon";
 import { Button } from "@/components/ui/button";
 import { Layers, Palette, Upload } from "lucide-react";
+import { PageManager } from "@/components/photo-album/page-manager";
 
 export function FloatingDock() {
   return (
@@ -13,9 +16,15 @@ export function FloatingDock() {
       </Button>
 
       <div className="flex flex-col gap-2">
-        <Button variant="ghost" size="icon" aria-label="Capas y páginas">
-          <Layers />
-        </Button>
+        <PageManager
+          side="right"
+          align="start"
+          trigger={
+            <Button variant="ghost" size="icon" aria-label="Capas y páginas">
+              <Layers />
+            </Button>
+          }
+        />
         <Button variant="ghost" size="icon" aria-label="Paleta y estilos">
           <Palette />
         </Button>
